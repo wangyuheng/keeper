@@ -1,0 +1,33 @@
+version: '3'
+services:
+  keeper:
+    build: .
+    ports:
+    - "8080:80"
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 80
+      # GITLAB API
+      GITLAB_TOKEN: VGtzL2GXKZKSHrcFRqtzasx
+      GITLAB_API: https://gitlab.com/api/v4/
+      # DB
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:keeper
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.H2Dialect
+      # issue周报
+      WEEKLY_ENABLE: "true"
+      WEEKLY_PROJECTS: "703"
+      WEEKLY_CRON: "1 0 0 ? * SUN"
+      # 工作负载
+      WORKLOAD_ENABLE: "true"
+      WORKLOAD_GROUPS: "7044374"
+      WORKLOAD_CRON: "0 0/30 * * * ?"
+      # 消息通知
+      listen_projects: "703"
+      dingding_url=: "https://oapi.dingtalk.com/robot/send?access_token=123"
+networks:
+  keeper:
+    driver: bridge

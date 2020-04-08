@@ -1,0 +1,11 @@
+
+# 周报issue项目
+weekly:
+  enable: true
+  projects: 703,704
+  cron: 1 0 0 ? * SUN
+# 工作负载
+workload:
+  enable: true
+  groups: 1
+  cron: 0 0/30 * * * ?

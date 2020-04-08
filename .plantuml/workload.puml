@@ -1,0 +1,10 @@
+@startuml
+node gitlab
+control keeper
+node metabase
+database db
+
+keeper -left-> gitlab: loop findAll issues
+keeper -down-> db: refresh issue db
+metabase -down-> db: read issue info & analysis
+@enduml

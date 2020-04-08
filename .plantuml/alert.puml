@@ -1,0 +1,10 @@
+@startuml
+gitlab -> keeper: listen event
+keeper -> keeper: resolve event msg
+alt isEmergency
+    keeper -> Dingding: send msg to group by robot
+    keeper -> gitlab: put next pipeline
+
+note left of keeper: change assignee | close issue
+end
+@enduml

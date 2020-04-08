@@ -1,0 +1,59 @@
+{
+  "properties": [
+    {
+      "name": "gitlab.token",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "gitlab.api",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "weekly.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启周报模块"
+    },
+    {
+      "name": "weekly.projects",
+      "type": "java.util.List"
+    },
+    {
+      "name": "weekly.cron",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "workload.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启周报模块"
+    },
+    {
+      "name": "workload.groups",
+      "type": "java.util.List"
+    },
+    {
+      "name": "workload.cron",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "dingding.url",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "listen.projects",
+      "type": "java.util.List"
+    }
+  ],
+  "hints": [
+    {
+      "name": "weekly.enable",
+      "values": [
+        {
+          "value": "true"
+        },
+        {
+          "value": "false"
+        }
+      ]
+    }
+  ]
+}

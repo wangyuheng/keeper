@@ -1,0 +1,22 @@
+@startuml
+actor User as u
+participant Gitlab as g
+u -> app: request
+app -> app: valid session authorization
+alt authorization login
+    app -> u: view
+else
+    app -> u: redirect login page
+    u -> g: submit login form
+    g -> app: redirect callbackUrl with authorization code
+    app -> g: get access token by authorization code
+    g -> app: return access token
+    app -> g: get user info
+    g -> app: return user info
+    g -> g: store user info with authorization key
+    g -> u: set cookie authorization key
+    u -> app: redirect referer url
+    app -> app: valid session authorization
+    app -> u: view
+end
+@enduml

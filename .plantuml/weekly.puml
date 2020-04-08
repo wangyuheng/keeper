@@ -1,0 +1,19 @@
+@startuml
+:list issue with label "周报";
+if (issues is empty) then (yes)
+    stop
+    note left
+      可能是节假日
+    end note
+else (no)
+    :list developer;
+    if (get weekly issue by developer) then (yes)
+        :parse markdown issue to html format;
+        :archive weekly issue.(edit label from "周报" to "周报归档");
+    else (no)
+        :auto write a remind email!;
+    endif
+    :fill subject(last week MON~SUN);
+    :send email;
+end
+@enduml
