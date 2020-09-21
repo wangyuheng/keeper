@@ -1,0 +1,20 @@
+{
+  "properties": [
+    {
+      "name": "gitlab.token",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "gitlab.api",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "dingding.url",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "listen.projects",
+      "type": "java.util.List"
+    }
+  ]
+}

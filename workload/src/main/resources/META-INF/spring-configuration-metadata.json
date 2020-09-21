@@ -1,0 +1,17 @@
+{
+  "properties": [
+    {
+      "name": "workload.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启工作量统计模块"
+    },
+    {
+      "name": "workload.groups",
+      "type": "java.util.List"
+    },
+    {
+      "name": "workload.cron",
+      "type": "java.lang.String"
+    }
+  ]
+}
