@@ -28,8 +28,6 @@
     <properties>
         <java.version>1.8</java.version>
         <kotlin.version>1.3.50</kotlin.version>
-
-        <okhttp.version>4.2.2</okhttp.version>
         <fastjson.version>1.2.62</fastjson.version>
         <h2.version>1.4.200</h2.version>
         <commonmark.version>0.13.0</commonmark.version>
