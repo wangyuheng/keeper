@@ -1,22 +1,42 @@
 {
   "properties": [
     {
-      "name": "weekly.enable",
+      "name": "oauth2.enable",
       "type": "java.lang.Boolean",
-      "description": "是否开启周报模块"
+      "defaultValue": "false",
+      "description": "是否开启Oauth2"
     },
     {
-      "name": "weekly.projects",
-      "type": "java.util.List"
+      "name": "oauth2.serverUrl",
+      "type": "java.lang.String",
+      "description": "gitlab地址"
     },
     {
-      "name": "weekly.cron",
-      "type": "java.lang.String"
+      "name": "oauth2.clientId",
+      "type": "java.lang.String",
+      "description": "gitlab 应用id, 需要创建application"
+    },
+    {
+      "name": "oauth2.clientSecret",
+      "type": "java.lang.String",
+      "description": "gitlab 应用密钥, 需要创建application"
+    },
+    {
+      "name": "oauth2.clientCallbackUrl",
+      "type": "java.lang.String",
+      "description": "gitlab 授权回调地址，通过浏览器跳转，可以配置为localhost"
+    },
+    {
+      "name": "oauth2.pathPatterns",
+      "type": "java.util.List",
+      "defaultValue": "/**",
+      "description": "oauth2拦截url路径"
     }
+
   ],
   "hints": [
     {
-      "name": "weekly.enable",
+      "name": "oauth2.enable",
       "values": [
         {
           "value": "true"
