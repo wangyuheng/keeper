@@ -1,0 +1,30 @@
+{
+  "properties": [
+    {
+      "name": "weekly.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启周报模块"
+    },
+    {
+      "name": "weekly.projects",
+      "type": "java.util.List"
+    },
+    {
+      "name": "weekly.cron",
+      "type": "java.lang.String"
+    }
+  ],
+  "hints": [
+    {
+      "name": "weekly.enable",
+      "values": [
+        {
+          "value": "true"
+        },
+        {
+          "value": "false"
+        }
+      ]
+    }
+  ]
+}
