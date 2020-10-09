@@ -9,16 +9,13 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
 import java.util.*
 
 const val MEDIA_TYPE_JSON = "application/json; charset=utf-8"
 const val TOKEN = "Private-Token"
 const val PAGE_SIZE = 100
 
-@Component
 class GitlabClient {
 
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
@@ -29,8 +26,7 @@ class GitlabClient {
     @Value("\${gitlab.api}")
     private lateinit var gitlabApi: String
 
-    @Autowired
-    private lateinit var okHttpClient: OkHttpClient
+    private val okHttpClient = OkHttpClient()
 
     fun getUser(userId: String): JSONObject {
         return JSONObject.parseObject(get("$gitlabApi/users/$userId"))
