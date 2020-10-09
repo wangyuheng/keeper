@@ -1,6 +1,10 @@
 package com.github.wangyuheng.keeper.oauth
 
-import com.github.wangyuheng.keeper.oauth.client.GitlabClient
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.github.wangyuheng.keeper.core.client.GitlabApiClient
+import com.github.wangyuheng.keeper.oauth.client.OauthUser
 import com.github.wangyuheng.keeper.oauth.conf.AUTHORIZATION_KEY
 import com.github.wangyuheng.keeper.oauth.conf.OauthProp
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,10 +29,12 @@ class OauthCallbackController {
     private lateinit var oauth2Prop: OauthProp
 
     @Autowired
-    private lateinit var gitlabClient: GitlabClient
+    private lateinit var gitlabApiClient: GitlabApiClient
 
     @Autowired
     private lateinit var sessionManager: SessionManager
+
+    private val objectMapper = ObjectMapper().registerModule(KotlinModule()).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
     /**
      * 授权后redirect url
@@ -39,8 +45,8 @@ class OauthCallbackController {
     fun callback(@RequestParam(value = "code", required = false) code: String?,
                  request: HttpServletRequest, response: HttpServletResponse): String {
         val referer = request.getParameter("referer")
-        val accessToken = gitlabClient.getAccessToken(code!!, oauth2Prop.buildCallbackUrl(referer))
-        val user = gitlabClient.getUser(accessToken!!)
+        val accessToken = gitlabApiClient.getAccessToken(code!!, oauth2Prop.clientId, oauth2Prop.clientSecret, oauth2Prop.buildCallbackUrl(referer))
+        val user = objectMapper.readValue(gitlabApiClient.getUser(accessToken!!), OauthUser::class.java)
         val uuid = UUID.randomUUID().toString()
         sessionManager.put(uuid, user)
         //set cookie
