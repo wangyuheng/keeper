@@ -7,11 +7,6 @@
       "description": "是否开启Oauth2"
     },
     {
-      "name": "oauth2.serverUrl",
-      "type": "java.lang.String",
-      "description": "gitlab地址"
-    },
-    {
       "name": "oauth2.clientId",
       "type": "java.lang.String",
       "description": "gitlab 应用id, 需要创建application"

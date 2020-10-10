@@ -1,18 +1,35 @@
 package com.github.wangyuheng.keeper.core.client
 
-import org.springframework.stereotype.Component
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.mail.javamail.JavaMailSenderImpl
+import org.springframework.mail.javamail.MimeMessageHelper
 
 
 interface EmailClient {
+    fun send(subject: String, content: String, sender: String, receivers: List<String>)
+}
 
-    fun send(subject: String, content: String, receivers: String): Boolean
+class EmailClientTemplate : EmailClient {
+
+    @Autowired
+    private lateinit var mailSender: JavaMailSenderImpl
+
+    override fun send(subject: String, content: String, sender: String, receivers: List<String>) {
+        val mimeMessage = mailSender.createMimeMessage()
+        val mimeMessageHelper = MimeMessageHelper(mimeMessage)
+        mimeMessageHelper.setTo(receivers.toTypedArray())
+        mimeMessageHelper.setFrom(sender)
+        mimeMessageHelper.setSubject(subject)
+        mimeMessageHelper.setText(content, true)
+        mailSender.send(mimeMessage)
+    }
 
 }
 
-@Component
 class AliyunEmailClient : EmailClient {
-    override fun send(subject: String, content: String, receivers: String): Boolean {
-        println("mock send a email to $receivers by aliyun")
-        return true
+
+    override fun send(subject: String, content: String, sender: String, receivers: List<String>) {
+        TODO("Not yet implemented")
     }
+
 }

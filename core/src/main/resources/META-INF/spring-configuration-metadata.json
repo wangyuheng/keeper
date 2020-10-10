@@ -6,6 +6,11 @@
     },
     {
       "name": "gitlab.api",
+      "type": "java.lang.String",
+      "description": "gitlab地址"
+    },
+    {
+      "name": "gitlab.serverUrl",
       "type": "java.lang.String"
     },
     {

@@ -1,4 +1,4 @@
-package com.github.wangyuheng.keeperoauthsample;
+package com.github.wangyuheng.keeperweeklysample;
 
 import com.github.wangyuheng.keeper.oauth.client.OauthUser;
 import com.github.wangyuheng.keeper.oauth.conf.OauthConfigKt;

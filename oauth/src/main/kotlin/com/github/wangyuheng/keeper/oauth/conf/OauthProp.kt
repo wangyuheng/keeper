@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConfigurationProperties(prefix = "oauth2")
 data class OauthProp(
-        var serverUrl: String = "",
         var clientCallbackUrl: String = "",
         var clientId: String = "",
         var clientSecret: String = "",

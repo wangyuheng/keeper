@@ -1,6 +1,6 @@
 package com.github.wangyuheng.keeper.oauth
 
-import com.github.wangyuheng.keeper.oauth.client.GitlabClient
+import com.github.wangyuheng.keeper.core.client.GitlabApiClient
 import com.github.wangyuheng.keeper.oauth.conf.OauthConfig
 import com.github.wangyuheng.keeper.oauth.conf.OauthProp
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage
@@ -18,7 +18,7 @@ class OauthAutoConfiguration {
     fun oauthProp() = OauthProp()
 
     @Bean
-    fun gitlabClient() = GitlabClient()
+    fun gitlabApiClient() = GitlabApiClient()
 
     @Bean
     fun oauthConfig() = OauthConfig()

@@ -9,16 +9,13 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
 import java.util.*
 
 const val MEDIA_TYPE_JSON = "application/json; charset=utf-8"
 const val TOKEN = "Private-Token"
 const val PAGE_SIZE = 100
 
-@Component
 class GitlabClient {
 
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
@@ -29,27 +26,10 @@ class GitlabClient {
     @Value("\${gitlab.api}")
     private lateinit var gitlabApi: String
 
-    @Autowired
-    private lateinit var okHttpClient: OkHttpClient
+    private val okHttpClient = OkHttpClient()
 
     fun getUser(userId: String): JSONObject {
         return JSONObject.parseObject(get("$gitlabApi/users/$userId"))
-    }
-
-    fun listProjectIssue(projectId: Int, params: String): List<JSONObject> {
-        val list: ArrayList<JSONObject> = ArrayList()
-        var page = 1
-        do {
-            val item = JSONArray.parseArray(this.get("$gitlabApi/projects/$projectId/issues?per_page=100&page=$page$params"), JSONObject::class.java)
-            list.addAll(item)
-            page++
-            log.info("list project issue! page -> $page size -> ${list.size} item_size -> ${item.size}")
-        } while (item.size == PAGE_SIZE)
-        return list
-    }
-
-    fun listOpenProjectIssue(projectId: Int): List<JSONObject> {
-        return listProjectIssue(projectId, "&state=opened")
     }
 
     fun listParticipants(projectId: Int, issueIid: Int): List<JSONObject> {
@@ -84,14 +64,6 @@ class GitlabClient {
         } while (item.size == 100)
 
         return list
-    }
-
-    fun editIssueLabels(projectId: Int, issueIid: Int, labels: String, close: Boolean) {
-        var url = "$gitlabApi/projects/$projectId/issues/$issueIid?labels=$labels"
-        if (close) {
-            url = "$url&state_event=close"
-        }
-        this.put(url, "")
     }
 
     fun editAssignee(projectId: Int, issueIid: Int, authorId: Int) {
