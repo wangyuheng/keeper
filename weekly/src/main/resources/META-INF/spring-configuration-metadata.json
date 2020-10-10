@@ -1,30 +1,37 @@
 {
   "properties": [
     {
-      "name": "weekly.enable",
-      "type": "java.lang.Boolean",
-      "description": "是否开启周报模块"
-    },
-    {
-      "name": "weekly.projects",
-      "type": "java.util.List"
-    },
-    {
       "name": "weekly.cron",
-      "type": "java.lang.String"
-    }
-  ],
-  "hints": [
+      "type": "java.lang.String",
+      "description": "周报发送时间。格式: Cron表达式"
+    },
     {
-      "name": "weekly.enable",
-      "values": [
-        {
-          "value": "true"
-        },
-        {
-          "value": "false"
-        }
-      ]
+      "name": "weekly.subject",
+      "type": "java.lang.String",
+      "defaultValue": "[Weekly][__user__][__datePeriod__]",
+      "description": "周报主题。提供变量 __user__ 表示发送用户姓名 __datePeriod__ 表示时间间隔"
+    },
+    {
+      "name": "weekly.label",
+      "type": "java.lang.String",
+      "defaultValue": "weekly",
+      "description": "周报label，用于识别周报issue"
+    },
+    {
+      "name": "weekly.archivedLabel",
+      "type": "java.lang.String",
+      "defaultValue": "archived_weekly",
+      "description": "周报归档label，发送后会自动变更"
+    },
+    {
+      "name": "weekly.projectIds",
+      "type": "java.util.List",
+      "description": "周报issue所在项目id"
+    },
+    {
+      "name": "weekly.receiverEmails",
+      "type": "java.util.List",
+      "description": "接收周报邮箱"
     }
   ]
 }

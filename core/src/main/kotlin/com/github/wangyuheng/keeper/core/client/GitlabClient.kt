@@ -32,22 +32,6 @@ class GitlabClient {
         return JSONObject.parseObject(get("$gitlabApi/users/$userId"))
     }
 
-    fun listProjectIssue(projectId: Int, params: String): List<JSONObject> {
-        val list: ArrayList<JSONObject> = ArrayList()
-        var page = 1
-        do {
-            val item = JSONArray.parseArray(this.get("$gitlabApi/projects/$projectId/issues?per_page=100&page=$page$params"), JSONObject::class.java)
-            list.addAll(item)
-            page++
-            log.info("list project issue! page -> $page size -> ${list.size} item_size -> ${item.size}")
-        } while (item.size == PAGE_SIZE)
-        return list
-    }
-
-    fun listOpenProjectIssue(projectId: Int): List<JSONObject> {
-        return listProjectIssue(projectId, "&state=opened")
-    }
-
     fun listParticipants(projectId: Int, issueIid: Int): List<JSONObject> {
         return JSONArray.parseArray(get("$gitlabApi/projects/$projectId/issues/$issueIid/participants"), JSONObject::class.java)
     }
@@ -80,14 +64,6 @@ class GitlabClient {
         } while (item.size == 100)
 
         return list
-    }
-
-    fun editIssueLabels(projectId: Int, issueIid: Int, labels: String, close: Boolean) {
-        var url = "$gitlabApi/projects/$projectId/issues/$issueIid?labels=$labels"
-        if (close) {
-            url = "$url&state_event=close"
-        }
-        this.put(url, "")
     }
 
     fun editAssignee(projectId: Int, issueIid: Int, authorId: Int) {

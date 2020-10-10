@@ -1,13 +1,17 @@
 package com.github.wangyuheng.keeper.core.client
 
+import com.alibaba.fastjson.JSONArray
+import com.alibaba.fastjson.JSONObject
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import java.net.URLEncoder
+import java.util.ArrayList
 
 class GitlabApiClient {
 
@@ -17,6 +21,9 @@ class GitlabApiClient {
 
     @Value("\${gitlab.serverUrl}")
     private lateinit var serverUrl: String
+    @Value("\${gitlab.token}")
+    private lateinit var gitlabToken: String
+
 
     /**
      * 通过code去gitlab获取accessToken
@@ -38,6 +45,18 @@ class GitlabApiClient {
         }
     }
 
+    fun listActiveUsers(): Array<String> {
+        val list: Array<String> = emptyArray()
+        var page = 1
+        do {
+            val item = JSONArray.parseArray(this.get("$serverUrl/api/v4/users?active=true&per_page=100&page=$page"), String::class.java)
+            list.plus(item)
+            page++
+            logger.info("list project issue! page -> $page size -> ${list.size} item_size -> ${item.size}")
+        } while (item.size == PAGE_SIZE)
+        return list
+    }
+
     /**
      * 根据accessToken获取user信息
      */
@@ -51,6 +70,50 @@ class GitlabApiClient {
             logger.info("request url: $url result: $body")
             return body
         }
+    }
+
+    fun listOpenProjectIssue(projectId: Int): List<JSONObject> {
+        return listProjectIssue(projectId, "&state=opened")
+    }
+
+    fun listProjectIssue(projectId: Int, params: String): List<JSONObject> {
+        val list: ArrayList<JSONObject> = ArrayList()
+        var page = 1
+        do {
+            val item = JSONArray.parseArray(this.get("$serverUrl/api/v4/projects/$projectId/issues?per_page=100&page=$page$params"), JSONObject::class.java)
+            list.addAll(item)
+            page++
+            logger.info("list project issue! page -> $page size -> ${list.size} item_size -> ${item.size}")
+        } while (item.size == PAGE_SIZE)
+        return list
+    }
+
+    fun editIssueLabels(projectId: Int, issueIid: Int, labels: String, close: Boolean) {
+        var url = "$serverUrl/api/v4/projects/$projectId/issues/$issueIid?labels=$labels"
+        if (close) {
+            url = "$url&state_event=close"
+        }
+        this.put(url, "")
+    }
+
+
+
+    private fun get(url: String): String {
+        val request = Request.Builder()
+                .url(url)
+                .header(TOKEN, gitlabToken)
+                .get()
+                .build()
+        return client.newCall(request).execute().body!!.string()
+    }
+
+    private fun put(url: String, body: String): String {
+        val request = Request.Builder()
+                .url(url)
+                .header(TOKEN, gitlabToken)
+                .put(body.toRequestBody(MEDIA_TYPE_JSON.toMediaTypeOrNull()))
+                .build()
+        return client.newCall(request).execute().body!!.string()
     }
 
 }
